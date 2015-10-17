@@ -1,5 +1,5 @@
 {
-  "name": "MMWeb App Template",
+  "name": "MMWebAppTemplate",
   "version": "1.0.0",
   "description": "Quick Gulp, Browserify, Babel, BrowserSync template.",
   "main": "index.js",
