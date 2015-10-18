@@ -26,7 +26,7 @@ You will need the following things properly installed on your computer.
 
 ## ESLINT
 
-This starter environment uses ES-Lint(http://eslint.org/) as the linting
+This starter environment uses [ES-Lint](http://eslint.org/) as the linting
 system. This is to allow for ES6/7 code.
 
 ## TODO:
