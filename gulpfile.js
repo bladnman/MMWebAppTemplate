@@ -35,6 +35,7 @@ var gutil           = require('gulp-util');
 var uglify          = require('gulp-uglify');
 var gulpif          = require('gulp-if');
 var exorcist        = require('exorcist');
+var eslint          = require('gulp-eslint');
 var browserSync     = require('browser-sync');
 var argv            = require('yargs').argv;
 
@@ -153,16 +154,32 @@ function serve() {
 		keepFiles = true;
 	});
 }
-
-
+function reloadBrowser() {
+	if ( browserSync ) {
+		browserSync.reload();
+	}
+}
+function lint() {
+  return gulp.src([SOURCE_PATH + '/**/*.js'])
+    // eslint() attaches the lint output to the eslint property
+    // of the file object so it can be used by other modules.
+    .pipe(eslint())
+    // eslint.format() outputs the lint results to the console.
+    // Alternatively use eslint.formatEach() (see Docs).
+    .pipe(eslint.format())
+    // To have the process exit with an error code (1) on
+    // lint error, return the stream and pipe to failAfterError last.
+    .pipe(eslint.failAfterError());
+}
 /**
  *  TASKS
  */
-gulp.task('build', build);
-gulp.task('clean-build', cleanBuild);
-gulp.task('remove-all-files', removeAllFiles);
-gulp.task('copy-static', ['remove-all-files'], copyStatic);
-gulp.task('watch-js', ['build'], browserSync.reload); // Rebuilds and reloads the project when executed.
-gulp.task('watch-static', ['copy-static'], browserSync.reload);
-gulp.task('serve', ['clean-build'], serve);
-gulp.task('default', ['serve']);
+gulp.task('build',              ['lint'], build);
+gulp.task('lint',               lint);
+gulp.task('clean-build',        cleanBuild);
+gulp.task('remove-all-files',   removeAllFiles);
+gulp.task('copy-static',        ['remove-all-files'], copyStatic);
+gulp.task('watch-js',           ['build'], reloadBrowser);
+gulp.task('watch-static',       ['copy-static'], reloadBrowser);
+gulp.task('serve',              ['clean-build'], serve);
+gulp.task('default',            ['serve']);

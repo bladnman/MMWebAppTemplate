@@ -24,6 +24,11 @@ You will need the following things properly installed on your computer.
 * Visit your app at [http://localhost:3000](http://localhost:3000).
 
 
+## ESLINT
+
+This starter environment uses ES-Lint(http://eslint.org/) as the linting
+system. This is to allow for ES6/7 code.
+
 ## TODO:
 
 * stylus
