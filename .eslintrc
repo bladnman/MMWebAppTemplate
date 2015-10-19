@@ -16,13 +16,6 @@
     "no-unused-expressions": 2,
     "guard-for-in": 0,
     "wrap-iife": 0,
-    "indent": [
-      2,
-      "tab",
-      {
-        "SwitchCase": 1
-      }
-    ],
     "no-use-before-define": 2,
     "linebreak-style": 0,
     "comma-style": [
