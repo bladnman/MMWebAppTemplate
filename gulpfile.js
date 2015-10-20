@@ -130,8 +130,10 @@ function isTest() {
 }
 function clean() {
 	if (!keepFiles) {
-		del([BUILD_PATH + '**/*.*']);
-	} else {
+		del([BUILD_PATH + '/**/*']);
+	} 
+	
+	else {
 		keepFiles = false;
 	}
 }
@@ -167,18 +169,6 @@ function logEnvironment() {
 function copyStatic() {
 	return gulp.src(STATIC_PATH + '/**/*')
 						.pipe(gulp.dest(BUILD_PATH + '/'));
-}
-function cleanAndBuild() {
-	gutil.log(gutil.colors.blue('Starting CLEAN BUILD...'));
-
-	gutil.log(gutil.colors.blue('  - clearing out all built files'));
-  clean();
-
-	gutil.log(gutil.colors.blue('  - copying all static files'));
-	copyStatic();
-
-	gutil.log(gutil.colors.blue('  - building'));
-	build();
 }
 function build() {
 
@@ -225,7 +215,7 @@ function serve() {
 	// Watches for changes in files inside the './src' folder.
 	gulp.watch(SOURCE_PATH + '/**/*.js', ['watch-js']);
 
-	// Watches for changes in files inside the './static' folder. Also sets 'keepFiles' to true (see cleanAndBuild()).
+	// Watches for changes in files inside the './static' folder. Also sets 'keepFiles' to true (see clean()).
 	gulp.watch(STATIC_PATH + '/**/*', ['watch-static']).on('change', function() {
 		keepFiles = true;
 	});
@@ -283,7 +273,7 @@ function lint() {
  */
 gulp.task('lint',               lint);
 gulp.task('log-environment',    logEnvironment);
-gulp.task('clean-build',        ['log-environment', 'lint'], cleanAndBuild);
+gulp.task('clean-build',        ['log-environment', 'lint', 'clean', 'copy-static'], build);
 gulp.task('clean',              clean);
 gulp.task('copy-static',        ['clean'], copyStatic);
 gulp.task('watch-js',           ['build'], reloadBrowser);
